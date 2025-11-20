@@ -12,7 +12,8 @@ router.get('/summary', (_req, res) => {
   const rentStatus = store.tenants.map((tenant) => ({
     tenantId: tenant.id,
     name: tenant.name,
-    status: tenant.balance > 0 ? 'unpaid' : 'paid',
+    // Narrow the status to the literal union so it matches TaskSummary
+    status: (tenant.balance > 0 ? 'unpaid' : 'paid') as 'paid' | 'unpaid',
     balance: tenant.balance,
   }));
   const summary: TaskSummary = {
